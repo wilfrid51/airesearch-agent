@@ -4,6 +4,10 @@ from selenium.webdriver.common.keys import Keys
 import time
 from bs4 import BeautifulSoup
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Try to import SerpAPI, but make it optional
 try:
@@ -12,18 +16,16 @@ try:
 except ImportError:
     SERPAPI_AVAILABLE = False
 
-SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
-
 def serpapi_search(query, num_results=3):
     # If SerpAPI is not available or no API key, fallback to regular search
-    if not SERPAPI_AVAILABLE or not SERPAPI_KEY:
+    if not SERPAPI_AVAILABLE or not os.getenv("SERPAPI_KEY"):
         return google_search(query, num_results)
     
     try:
         params = {
             "engine": "google",
             "q": query,
-            "api_key": SERPAPI_KEY,
+            "api_key": os.getenv("SERPAPI_KEY"),
             "num": num_results
         }
         search = GoogleSearch(params)
