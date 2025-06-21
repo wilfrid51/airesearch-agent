@@ -1,8 +1,5 @@
 streamlit
-selenium
+google-search-results
 pyautogui
 requests
 beautifulsoup4
-google-search-results
-python-dotenv
-serpapi

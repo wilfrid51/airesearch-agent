@@ -6,5 +6,5 @@ def summarize_with_llm(text):
         "http://localhost:11434/api/generate",
         json={"model": "llama3", "prompt": prompt, "stream": False}
     )
-    summary = response.json()['response']
-    return summary
+    summary = response.json().get('response', '')
+    return summary if summary.strip() else "No summary available."
