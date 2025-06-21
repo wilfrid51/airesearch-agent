@@ -1,1 +1,5 @@
-requirements.txt
+streamlit
+selenium
+pyautogui
+requests
+beautifulsoup4
