@@ -1,9 +1,13 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import streamlit as st
 from agent.agent_core import run_research_and_summarize
 
 st.set_page_config(page_title="AI Research & Summarizer Agent")
 
-st.title("🦙 AI Research & Summarizer")
+st.title("AI Research & Summarizer Agent")
 query = st.text_input("Enter your research topic or question:")
 
 if st.button("Run Research"):
