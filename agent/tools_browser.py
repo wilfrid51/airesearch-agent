@@ -3,6 +3,39 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 from bs4 import BeautifulSoup
+import os
+
+# Try to import SerpAPI, but make it optional
+try:
+    from serpapi import GoogleSearch
+    SERPAPI_AVAILABLE = True
+except ImportError:
+    SERPAPI_AVAILABLE = False
+
+SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
+
+def serpapi_search(query, num_results=3):
+    # If SerpAPI is not available or no API key, fallback to regular search
+    if not SERPAPI_AVAILABLE or not SERPAPI_KEY:
+        return google_search(query, num_results)
+    
+    try:
+        params = {
+            "engine": "google",
+            "q": query,
+            "api_key": SERPAPI_KEY,
+            "num": num_results
+        }
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        links = []
+        if "organic_results" in results:
+            for result in results["organic_results"][:num_results]:
+                links.append(result.get("link"))
+        return links
+    except Exception as e:
+        print(f"SerpAPI search failed: {e}")
+        return google_search(query, num_results)
 
 def google_search(query, num_results=3):
     driver = webdriver.Chrome()
